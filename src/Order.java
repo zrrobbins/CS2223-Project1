@@ -19,6 +19,8 @@ public abstract class Order implements Comparable<Order> {
 		    	return 0;  	
 		}
 		
+		public abstract void print();
+		
 		public int getPrice() {
 			return this.price;
 		}

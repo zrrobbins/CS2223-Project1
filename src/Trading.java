@@ -14,15 +14,13 @@ public class Trading {
 	        numLines = inputLines.length;
 	        
 	        this.parseInput();
-	        // Testing functionality
-	        System.out.println("First input: " + inputLines[0]);
-	        System.out.println("Number of input lines: " + numLines);
 		}
 		
 		// Takes lines of input gathered from getInput(), tokenizes them, and organized them into buy and sell orders.
 		// Then adds them to their respective priority queue.
 		public void parseInput()
 		{
+			System.out.println("Input: ");
 			for (int i = 0; i < numLines; i++)
 			{
 				String[] splitStrings = inputLines[i].split(" ");
@@ -31,10 +29,12 @@ public class Trading {
 					if (splitStrings[0].compareTo("buy") == 0) {
 						BuyOrder newBOrder = new BuyOrder(Integer.parseInt(splitStrings[1]), Integer.parseInt(splitStrings[2]));
 						buyOrders.insert(newBOrder);
+						newBOrder.print();
 						}
 					else if (splitStrings[0].compareTo("sell") == 0) {
 						SellOrder newSOrder = new SellOrder(Integer.parseInt(splitStrings[1]), Integer.parseInt(splitStrings[2]));
-						sellOrders.insert(newSOrder);  
+						sellOrders.insert(newSOrder); 
+						newSOrder.print();
 						}
 					else {
 						System.out.println("ERROR: Order type not recognized!");
@@ -45,17 +45,73 @@ public class Trading {
 					System.out.println("ERROR: Invalid input format, incorrect number of arguments!");
 					System.exit(-1);
 				}
-				
-				System.out.println("splitStrings[] = " + splitStrings[0] + " " + splitStrings[1] + " " + splitStrings[2]);
 			}
-			
-			System.out.println("Size of buys queue: " + buyOrders.size());
-			System.out.println("Size of sells queue: " + sellOrders.size());
+			System.out.print("\n");
 		}
 		
 		// Makes all trades based on what is available in buy and sell order queues
-		private void make_trades(MaxPQ<Order> buys, MinPQ<Order> sells)
+		public void make_trades() //(MaxPQ<Order> buys, MinPQ<Order> sells)
 		{
-			return;
+			if (this.buyOrders.isEmpty() || this.sellOrders.isEmpty()) {
+				System.out.println("No trades made!");
+				return;
+			}
+			
+			System.out.print("The sequence of trades is: ");
+			
+			// Make all possible trades until market reaches equilibrium
+			while(!this.buyOrders.isEmpty() && !this.sellOrders.isEmpty() 
+					&& this.buyOrders.max().getPrice() >= this.sellOrders.min().getPrice())
+			{
+				trade(this.buyOrders.max(), this.sellOrders.min());
+			}
+			System.out.print("\n\n");
+			
+			// Prints out all outstanding orders
+			printOutstanding();
+		}
+		
+		// Makes a single trade
+		public void trade(Order bOrder, Order sOrder) {
+			int bQuant = bOrder.getQuantity();
+			int sQuant = sOrder.getQuantity();
+			
+			// If buy order quantity is greater
+			if (bQuant > sQuant) {
+				bQuant = bQuant - sQuant;
+				System.out.print("(" + sOrder.getPrice() + ", " + sQuant + "), ");
+				this.sellOrders.delMin();
+				this.buyOrders.delMax();
+				this.buyOrders.insert(new BuyOrder(bOrder.getPrice(), bQuant));
+			}
+			// If sell order quantity is greater
+			else if (bQuant < sQuant) {
+				sQuant = sQuant - bQuant;
+				System.out.print("(" + sOrder.getPrice() + ", " + bQuant + "), ");
+				this.sellOrders.delMin();
+				this.buyOrders.delMax();
+				this.sellOrders.insert(new SellOrder(sOrder.getPrice(), sQuant));
+			}
+			// If both quantities are equal for the buy and sell order
+			else {
+				System.out.print("(" + sOrder.getPrice() + ", " + bQuant + "), ");
+				this.sellOrders.delMin();
+				this.buyOrders.delMax();
+			}
+		}
+		
+		public void printOutstanding(){
+			System.out.print("Outstanding sell orders: ");
+			for (int i = this.sellOrders.size(); i > 0; i--){
+				System.out.print("(" + sellOrders.min().getPrice() + ", " + sellOrders.min().getQuantity() + "), ");
+				sellOrders.delMin();
+			}
+			System.out.print("\n");
+			System.out.print("Outstanding buy orders: ");
+			for (int i = this.buyOrders.size(); i > 0; i--){
+				System.out.print("(" + buyOrders.max().getPrice() + ", " + buyOrders.max().getQuantity() + "), ");
+				buyOrders.delMax();
+			}
+			System.out.print("\n\n");
 		}
 }
