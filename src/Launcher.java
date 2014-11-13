@@ -1,15 +1,9 @@
 
 public class Launcher {
 
-	public static void main(String[] args) {
-		//HelloWorld helloObj = new HelloWorld();
-		
+	public static void main(String[] args) {		
 		Trading market = new Trading();
 		market.getInput();
-		market.make_trades();
-		
-		//helloObj.sayHello();
-		
-	
+		market.make_trades();	
 	}
 }
