@@ -9,7 +9,7 @@ PURPOSE: Simulate the trading activity of a single stock by making a buy and sel
 
 HOW TO USE: Users can input buy/sell orders by inputting <"buy" or "sell"> <price> <qty> [enter] or using a text file in the form Trading < data.txt. If using standard in, use the EOF character to stop inputting.
 
-DESCRIPTION
+DESCRIPTION: 
 Order class: (abstract) contains a price and quantity, and is implemented as either a BuyOrder or SellOrder. Implements the Comparable interface for use in priority queues.
 BuyOrder class: subclass of Order class
 SellOrder class: subclass of Order class
