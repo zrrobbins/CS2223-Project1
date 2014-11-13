@@ -1,3 +1,9 @@
+/*
+ * Class: CS2223 B01
+ * Group: Zachary Robbins & Fiona Heaney
+ * Project #1
+ * Due: 11/13/14
+ */
 
 public abstract class Order implements Comparable<Order> {
 
