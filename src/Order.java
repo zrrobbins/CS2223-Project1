@@ -4,6 +4,7 @@ public abstract class Order implements Comparable<Order> {
 		private int price;
 		private int quantity;
 		
+		// Constructor
 		public Order(int p, int q){
 			this.price = p;
 			this.quantity = q;
@@ -19,21 +20,15 @@ public abstract class Order implements Comparable<Order> {
 		    	return 0;  	
 		}
 		
+		// Print method
 		public abstract void print();
 		
+		// Getter method for price
 		public int getPrice() {
 			return this.price;
 		}
-		
-		public void setPrice(int p) {
-			this.price = p;
-		}
-		
+		// Getter method for quantity
 		public int getQuantity() {
 			return this.quantity;
-		}
-		
-		public void setQuantity(int q) {
-			this.quantity = q;
 		} 
 }
