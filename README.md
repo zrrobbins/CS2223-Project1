@@ -7,6 +7,12 @@ Group: Zachary Robbins & Fiona Heaney
 
 PURPOSE: Simulate the trading activity of a single stock by making a buy and sell request priority queue. Users input a sequence of buy and sell orders which the program then processes by pairing the most expensive buy order with the least expensive sell order. After either of the queues are empty or transactions can no longer be made, all remaining buy and sell requests are printed, and the program terminates.
 
+COMPILATION:
+While in source directory, compile using: 
+	javac-algs4 *.java
+Run using:
+	java-algs4 Launcher
+	
 HOW TO USE: Users can input buy/sell orders by inputting <"buy" or "sell"> <price> <qty> [enter] or using a text file in the form Trading < data.txt. If using standard in, use the EOF character to stop inputting.
 
 DESCRIPTION: 
